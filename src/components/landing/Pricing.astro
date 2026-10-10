@@ -1,5 +1,6 @@
 ---
 import { plans } from "../../data/pricing";
+import { appLinks } from "../../config/app-links";
 ---
 
 <section class="section pricing" id="pricing" aria-labelledby="pricing-heading" style="scroll-mt: 96px">
@@ -22,7 +23,7 @@ import { plans } from "../../data/pricing";
           <p class="price-card__price"><sup>$</sup>{plan.price}<span>{plan.cadence}</span></p>
           <a
             class:list={["button button--full", plan.featured ? "button--primary" : "button--secondary"]}
-            href="/register"
+            href={appLinks.signup}
           >{plan.cta}</a>
           <ul>
             {plan.features.map((feature) => (

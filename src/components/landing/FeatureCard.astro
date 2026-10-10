@@ -1,5 +1,6 @@
 ---
 import type { ProductFeature } from "../../data/features";
+import { appLinks } from "../../config/app-links";
 import ToolIcon from "../ui/ToolIcon";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const { feature } = Astro.props;
-const href = feature.action === "Learn more" ? "#how-it-works" : "/register";
+const href = feature.action === "Learn more" ? "#how-it-works" : appLinks.signup;
 
 ---
 

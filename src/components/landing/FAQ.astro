@@ -1,4 +1,6 @@
 ---
+import { appLinks } from "../../config/app-links";
+
 const faqs = [
   { question: "What can I create with OmniCat?", answer: "OmniCat brings together product descriptions, ad copy, long-form blog writing, text humanization, model photoshoots, product backgrounds, background removal, photo enhancement, watermark removal, logo concepts, and batch product-image editing." },
   { question: "Does OmniCat work inside Shopify?", answer: "Yes. Shopify merchants can use OmniCat as part of an embedded workflow, opening products, generating content or visuals, reviewing results, and applying approved changes back to Shopify." },
@@ -16,7 +18,7 @@ const faqs = [
       <p class="eyebrow">Questions, answered</p>
       <h2 id="faq-heading">The useful details before you begin.</h2>
       <p>Still deciding where OmniCat fits? Start free and explore every tool with your daily credits.</p>
-      <a class="text-link text-link--accent" href="/register">Create a free account</a>
+      <a class="text-link text-link--accent" href={appLinks.signup}>Create a free account</a>
     </div>
     <div class="accordion">
       {faqs.map((faq, index) => (

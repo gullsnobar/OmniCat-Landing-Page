@@ -1,5 +1,6 @@
 ---
 import Brand from "./Brand.astro";
+import { appLinks } from "../../config/app-links";
 ---
 
 <footer class="footer">
@@ -29,9 +30,9 @@ import Brand from "./Brand.astro";
         </div>
         <div>
           <h2>Account</h2>
-          <a href="/register">Start Free</a>
-          <a href="/login">Log In</a>
-          <a href="/dashboard">Open Dashboard</a>
+          <a href={appLinks.signup}>Sign Up</a>
+          <a href={appLinks.login}>Log In</a>
+          <a href={appLinks.home}>Open OmniCat</a>
         </div>
       </nav>
     </div>

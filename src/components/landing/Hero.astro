@@ -1,4 +1,5 @@
 ---
+import { appLinks } from "../../config/app-links";
 ---
 
 <section class="hero section" id="product" aria-labelledby="hero-heading" style="scroll-mt: 96px">
@@ -8,7 +9,7 @@
       <h1 id="hero-heading">Turn product ideas into <em>content that sells.</em></h1>
       <p class="hero__lead">Create product descriptions, campaign copy, and studio-quality product visuals from one focused workspace built for Shopify merchants.</p>
       <div class="hero__actions">
-        <a class="button button--primary button--large" href="/register">Start creating free</a>
+        <a class="button button--primary button--large" href={appLinks.signup}>Sign up free</a>
         <a class="button button--secondary button--large" href="#features">Explore the tools</a>
       </div>
       <p class="hero__trust">Works inside your Shopify admin · No coding needed</p>
