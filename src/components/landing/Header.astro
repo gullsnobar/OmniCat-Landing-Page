@@ -1,0 +1,88 @@
+---
+import Brand from "./Brand.astro";
+---
+
+<header class="site-header" data-site-header>
+  <div class="container site-header__inner">
+    <Brand />
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#product">Product</a>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <a class="text-link header-login" href="/login">Log in</a>
+      <a class="button button--small button--primary" href="/register">Start free</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <svg class="menu-toggle__open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg class="menu-toggle__close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav hidden>
+    <nav aria-label="Mobile navigation">
+      <a href="#product">Product</a>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <div class="mobile-nav__actions">
+        <a class="button button--secondary" href="/login">Log in</a>
+        <a class="button button--primary" href="/register">Start free</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.querySelector<HTMLElement>("[data-mobile-nav]");
+
+  const updateHeader = () => header?.classList.toggle("site-header--scrolled", window.scrollY > 12);
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+
+  const closeMenu = () => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open navigation");
+    menu.hidden = true;
+    document.body.classList.remove("menu-open");
+  };
+
+  toggle?.addEventListener("click", () => {
+    if (!menu) return;
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+    menu.hidden = isOpen;
+    document.body.classList.toggle("menu-open", !isOpen);
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 900) closeMenu();
+  });
+</script>

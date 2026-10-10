@@ -1,0 +1,42 @@
+---
+import { plans } from "../../data/pricing";
+---
+
+<section class="section pricing" id="pricing" aria-labelledby="pricing-heading" style="scroll-mt: 96px">
+  <div class="container">
+    <div class="section-intro section-intro--center">
+      <p class="eyebrow">Simple daily credits</p>
+      <h2 id="pricing-heading">Choose the pace that fits your store.</h2>
+      <p>Start free, then move up when your catalog and campaign volume grow.</p>
+    </div>
+    <div class="pricing-grid">
+      {plans.map((plan) => (
+        <article class:list={["price-card", { "price-card--featured": plan.featured }]}>
+          {plan.badge && (
+            <span class="price-card__badge">{plan.badge}</span>
+          )}
+          <div class="price-card__head">
+            <h3>{plan.name}</h3>
+            <p>{plan.description}</p>
+          </div>
+          <p class="price-card__price"><sup>$</sup>{plan.price}<span>{plan.cadence}</span></p>
+          <a
+            class:list={["button button--full", plan.featured ? "button--primary" : "button--secondary"]}
+            href="/register"
+          >{plan.cta}</a>
+          <ul>
+            {plan.features.map((feature) => (
+              <li>
+                <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+    <p class="pricing-note">For Shopify merchants, subscription approval and payment are handled securely by Shopify. OmniCat does not store your card details.</p>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+---
+import { productFeatures } from "../../data/features";
+import FeatureCard from "./FeatureCard.astro";
+
+const filters = [
+  { id: "all", label: "All tools" },
+  { id: "content", label: "Content" },
+  { id: "images", label: "Images" },
+  { id: "shopify", label: "Shopify" },
+];
+---
+
+<section class="section features features-catalog" id="features" aria-labelledby="features-heading" style="scroll-mt: 96px">
+  <div class="container">
+    <div class="catalog-heading">
+      <div>
+        <p class="eyebrow">One workspace. Every creative tool.</p>
+        <h2 id="features-heading">Everything your product needs, from listing to launch.</h2>
+      </div>
+      <p>Write conversion-focused content, improve product photography, and publish polished results through one connected Shopify workflow.</p>
+    </div>
+
+    <div class="catalog-toolbar">
+      <div class="catalog-filters" role="group" aria-label="Filter OmniCat tools">
+        {filters.map((filter, index) => (
+          <button
+            type="button"
+            data-feature-filter={filter.id}
+            aria-pressed={index === 0 ? "true" : "false"}
+            class:list={{ "is-active": index === 0 }}
+          >{filter.label}</button>
+        ))}
+      </div>
+      <p><strong data-feature-count>{productFeatures.length}</strong> connected capabilities</p>
+    </div>
+
+    <div class="tool-catalog" data-feature-catalog data-filter="all">
+      {productFeatures.map((feature) => <FeatureCard feature={feature} />)}
+    </div>
+  </div>
+</section>
+
+<script>
+  const catalog = document.querySelector<HTMLElement>("[data-feature-catalog]");
+  const filters = document.querySelectorAll<HTMLButtonElement>("[data-feature-filter]");
+  const count = document.querySelector<HTMLElement>("[data-feature-count]");
+
+  filters.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selected = button.dataset.featureFilter ?? "all";
+      filters.forEach((filter) => {
+        const active = filter === button;
+        filter.classList.toggle("is-active", active);
+        filter.setAttribute("aria-pressed", String(active));
+      });
+      if (!catalog) return;
+      catalog.dataset.filter = selected;
+      const cards = catalog.querySelectorAll<HTMLElement>("[data-feature-card]");
+      let visible = 0;
+      cards.forEach((card) => {
+        const show = selected === "all" || card.dataset.category === selected;
+        card.hidden = !show;
+        if (show) visible += 1;
+      });
+      if (count) count.textContent = String(visible);
+    });
+  });
+</script>

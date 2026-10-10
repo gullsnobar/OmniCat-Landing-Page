@@ -1,0 +1,37 @@
+---
+const faqs = [
+  { question: "What can I create with OmniCat?", answer: "OmniCat brings together product descriptions, ad copy, long-form blog writing, text humanization, model photoshoots, product backgrounds, background removal, photo enhancement, watermark removal, logo concepts, and batch product-image editing." },
+  { question: "Does OmniCat work inside Shopify?", answer: "Yes. Shopify merchants can use OmniCat as part of an embedded workflow, opening products, generating content or visuals, reviewing results, and applying approved changes back to Shopify." },
+  { question: "Do I need a credit card to start?", answer: "No. The Free plan includes 100 credits every day and does not require a credit card." },
+  { question: "What happens when a generation fails?", answer: "Credits used for a failed AI job are returned automatically, so you are not charged for a result you did not receive." },
+  { question: "Can I process multiple product images?", answer: "Yes. Business includes bulk processing, and OmniCat's batch-editing workflow is designed for larger product-image updates." },
+  { question: "Can I review content before publishing it?", answer: "Yes. Generated content remains yours to review and edit. Nothing needs to be applied to Shopify until you approve it." },
+  { question: "Can I change or cancel my plan?", answer: "Yes. Shopify merchants manage plan approval and billing through Shopify, including plan changes and cancellations." },
+];
+---
+
+<section class="section faq" id="faq" aria-labelledby="faq-heading" style="scroll-mt: 96px">
+  <div class="container faq__grid">
+    <div class="faq__intro">
+      <p class="eyebrow">Questions, answered</p>
+      <h2 id="faq-heading">The useful details before you begin.</h2>
+      <p>Still deciding where OmniCat fits? Start free and explore every tool with your daily credits.</p>
+      <a class="text-link text-link--accent" href="/register">Create a free account</a>
+    </div>
+    <div class="accordion">
+      {faqs.map((faq, index) => (
+        <details open={index === 0}>
+          <summary>
+            {faq.question}
+            <span class="chevron" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </summary>
+          <div><p>{faq.answer}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

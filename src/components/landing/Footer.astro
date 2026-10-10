@@ -1,0 +1,47 @@
+---
+import Brand from "./Brand.astro";
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__main">
+      <div class="footer__brand">
+        <Brand />
+        <p>One connected creative workspace for better product content, stronger visuals, and a smoother Shopify publishing flow.</p>
+        <span>Built for modern e-commerce teams.</span>
+        <small>Product photo by <a href="https://unsplash.com/@contentpixie" target="_blank" rel="noreferrer">Content Pixie</a> on Unsplash.</small>
+      </div>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <div>
+          <h2>Product</h2>
+          <a href="#feature-product-descriptions">Product Descriptions</a>
+          <a href="#feature-ad-copy">Ad Copy</a>
+          <a href="#feature-model-photoshoot">Model Photoshoot</a>
+          <a href="#feature-photo-enhancer">Image Tools</a>
+          <a href="#feature-shopify-integration">Shopify Integration</a>
+        </div>
+        <div>
+          <h2>Resources</h2>
+          <a href="/help">Help Center</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="/privacy">Privacy Policy</a>
+        </div>
+        <div>
+          <h2>Account</h2>
+          <a href="/register">Start Free</a>
+          <a href="/login">Log In</a>
+          <a href="/dashboard">Open Dashboard</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <p>© {new Date().getFullYear()} OmniCat. All rights reserved.</p>
+      <div>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/help">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>

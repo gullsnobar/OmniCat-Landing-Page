@@ -1,0 +1,26 @@
+---
+const steps = [
+  { number: "1", title: "Add your product or brief", text: "Pull in a Shopify product or start with the information you have." },
+  { number: "2", title: "Choose and customize", text: "Pick a focused tool, set the direction, and generate a useful first result." },
+  { number: "3", title: "Review, download, or publish", text: "Edit the work, save it for later, or apply approved content to Shopify." },
+];
+---
+
+<section class="section how" id="how-it-works" aria-labelledby="how-heading">
+  <div class="container">
+    <div class="section-intro section-intro--center">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-heading">A shorter path from idea to live product.</h2>
+      <p>Three steps from product page to published content.</p>
+    </div>
+    <ol class="how__steps">
+      {steps.map((step) => (
+        <li>
+          <div class="how__circle" aria-hidden="true">{step.number}</div>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

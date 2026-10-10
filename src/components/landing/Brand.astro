@@ -1,0 +1,12 @@
+---
+interface Props {
+  inverse?: boolean;
+}
+
+const { inverse = false } = Astro.props;
+---
+
+<a class:list={["brand", { "brand--inverse": inverse }]} href="/" aria-label="OmniCat home">
+  <span class="brand__mark" aria-hidden="true"><span>O</span></span>
+  <span class="brand__name">OmniCat</span>
+</a>

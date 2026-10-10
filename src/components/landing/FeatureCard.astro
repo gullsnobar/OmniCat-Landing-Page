@@ -1,0 +1,212 @@
+---
+import type { ProductFeature } from "../../data/features";
+import ToolIcon from "../ui/ToolIcon";
+
+interface Props {
+  feature: ProductFeature;
+}
+
+const { feature } = Astro.props;
+const href = feature.action === "Learn more" ? "#how-it-works" : "/register";
+
+---
+
+<article
+  id={`feature-${feature.id}`}
+  class:list={["tool-card", `tool-card--${feature.layout}`, feature.visual && `tool-card--${feature.visual}`]}
+  data-feature-card
+  data-category={feature.category}
+>
+  <div class="tool-card__body">
+    <div class="tool-card__topline">
+      <span class="tool-card__icon" aria-hidden="true">
+        <ToolIcon name={feature.icon} size={24} />
+      </span>
+      <span class="tool-card__category">{feature.categoryLabel}</span>
+    </div>
+    <h3>{feature.name}</h3>
+    <p>{feature.description}</p>
+  </div>
+
+  {feature.visual === "copy" && (
+    <div class="tool-preview tool-preview--copy" aria-label="Generated product description preview">
+      <div class="copy-demo__bar"><span>Product description</span><b>Ready</b></div>
+      <small>BOTANICAL DAILY SERUM</small>
+      <strong>Balanced hydration, made for every day.</strong>
+      <i></i><i></i><i></i>
+      <div><span>SEO title</span><span>Benefits</span><span>Brand voice</span></div>
+    </div>
+  )}
+
+  {feature.visual === "photoshoot" && (
+    <div class="tool-preview tool-preview--photoshoot" aria-label="AI model photoshoot concept preview">
+      <img src="/product-bottle.jpg" width="560" height="700" alt="Skincare bottle arranged as a campaign concept" loading="lazy" />
+      <div class="photoshoot-demo__rail" aria-hidden="true"><span class="is-selected"></span><span></span><span></span></div>
+      <p><span>Concept 02</span><b>Campaign ready</b></p>
+    </div>
+  )}
+
+  {feature.visual === "enhancer" && (
+    <div class="tool-preview enhancer-demo" data-enhancer-demo>
+      <div class="enhancer-demo__stage">
+        <img class="enhancer-demo__before" src="/product-bottle.jpg" width="900" height="640" alt="Original skincare product photo" loading="lazy" />
+        <div class="enhancer-demo__after" data-enhancer-after>
+          <img src="/product-bottle.jpg" width="900" height="640" alt="Enhanced skincare product photo" loading="lazy" />
+        </div>
+        <span class="enhancer-demo__label enhancer-demo__label--before">Original</span>
+        <span class="enhancer-demo__label enhancer-demo__label--after">Enhanced</span>
+        <span class="enhancer-demo__divider" data-enhancer-divider aria-hidden="true"><i></i></span>
+      </div>
+      <label for={`enhancer-range-${feature.id}`}>Compare original and enhanced image</label>
+      <input id={`enhancer-range-${feature.id}`} type="range" min="8" max="92" value="52" data-enhancer-range aria-valuetext="Comparison divider at 52 percent" />
+      <div class="enhancer-demo__status">
+        <span><small>ORIGINAL</small><b>1024 × 1024</b></span>
+        <i></i>
+        <span><small>ENHANCED</small><b>4096 × 4096</b></span>
+        <em>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Complete
+        </em>
+      </div>
+    </div>
+  )}
+
+  {feature.visual === "background" && (
+    <div class="tool-preview background-demo" data-background-demo data-scene="studio">
+      <div class="background-demo__stage" data-background-stage>
+        <img src="/product-bottle.jpg" width="900" height="640" alt="Skincare bottle shown on the selected generated background" loading="lazy" />
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Background ready
+        </span>
+      </div>
+      <div class="background-demo__choices" role="group" aria-label="Choose generated background">
+        <button type="button" class="is-selected" data-scene="studio" aria-pressed="true"><i></i><span>Soft studio</span></button>
+        <button type="button" data-scene="stone" aria-pressed="false"><i></i><span>Warm stone</span></button>
+        <button type="button" data-scene="seasonal" aria-pressed="false"><i></i><span>Seasonal</span></button>
+      </div>
+    </div>
+  )}
+
+  {feature.visual === "batch" && (
+    <div class="tool-preview tool-preview--image batch-preview" aria-label="Batch-edited product images preview">
+      {["01", "02", "03"].map((number, index) => (
+        <span>
+          <img src="/product-bottle.jpg" width="260" height="190" alt="" loading="lazy" />
+          <small>{number}</small>
+          {index === 2 && <b>Ready</b>}
+        </span>
+      ))}
+    </div>
+  )}
+
+  {feature.visual === "remover" && (
+    <div class="tool-preview tool-preview--image remover-preview" aria-label="Background removal before and after preview">
+      <span>
+        <img src="/product-bottle.jpg" width="360" height="240" alt="Product image before background removal" loading="lazy" />
+        <small>Original</small>
+      </span>
+      <span>
+        <img src="/product-bottle.jpg" width="360" height="240" alt="Product cutout after background removal" loading="lazy" />
+        <small>Cutout</small>
+      </span>
+    </div>
+  )}
+
+  {feature.visual === "logo" && (
+    <div class="tool-preview tool-preview--image logo-preview" aria-label="Generated logo directions preview">
+      <span class="logo-preview__product">
+        <img src="/product-bottle.jpg" width="360" height="240" alt="Product used to inspire generated brand marks" loading="lazy" />
+      </span>
+      <span class="logo-preview__marks" aria-hidden="true">
+        <b>OC</b>
+        <b>O</b>
+        <b>OMNI</b>
+      </span>
+    </div>
+  )}
+
+  {feature.visual === "watermark" && (
+    <div class="tool-preview tool-preview--image watermark-preview" aria-label="Watermark removal before and after preview">
+      <span>
+        <img src="/product-bottle.jpg" width="360" height="240" alt="Product image with a sample watermark" loading="lazy" />
+        <strong aria-hidden="true">SAMPLE</strong>
+        <small>Before</small>
+      </span>
+      <span>
+        <img src="/product-bottle.jpg" width="360" height="240" alt="Clean product image after watermark removal" loading="lazy" />
+        <small>Clean</small>
+      </span>
+    </div>
+  )}
+
+  {feature.visual === "shopify" && (
+    <div class="tool-preview shopify-demo" aria-label="Shopify product workflow preview">
+      <div class="shopify-demo__product">
+        <img src="/product-bottle.jpg" width="120" height="120" alt="" loading="lazy" />
+        <span><small>SHOPIFY PRODUCT</small><b>Botanical Daily Serum</b><em>Draft product</em></span>
+      </div>
+      <div class="shopify-demo__flow" aria-hidden="true"><span></span><i></i><span></span></div>
+      <div class="shopify-demo__result">
+        <small>OMNICAT RESULT</small>
+        <b>Copy and image ready</b>
+        <span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Awaiting approval
+        </span>
+      </div>
+    </div>
+  )}
+
+  {feature.visual === "audit" && (
+    <div class="audit-demo" aria-label="Catalog audit preview">
+      <span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <b>Descriptions reviewed</b><small>12 complete</small>
+      </span>
+      <span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <b>Images to improve</b><small>3 queued</small>
+      </span>
+      <span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <b>Listings needing attention</b><small>2 flagged</small>
+      </span>
+    </div>
+  )}
+
+  <footer class="tool-card__footer">
+    <div class="tool-card__labels">{feature.labels.map((label) => <span>{label}</span>)}</div>
+    <a href={href}>{feature.action}</a>
+  </footer>
+</article>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-enhancer-demo]").forEach((demo) => {
+    const range = demo.querySelector<HTMLInputElement>("[data-enhancer-range]");
+    const after = demo.querySelector<HTMLElement>("[data-enhancer-after]");
+    const divider = demo.querySelector<HTMLElement>("[data-enhancer-divider]");
+    if (!range || !after || !divider) return;
+    const update = () => {
+      const value = Number(range.value);
+      after.style.clipPath = `inset(0 0 0 ${value}%)`;
+      divider.style.left = `${value}%`;
+      range.setAttribute("aria-valuetext", `Comparison divider at ${value} percent`);
+    };
+    range.addEventListener("input", update);
+    update();
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-background-demo]").forEach((demo) => {
+    demo.querySelectorAll<HTMLButtonElement>("button[data-scene]").forEach((button) => {
+      button.addEventListener("click", () => {
+        demo.dataset.scene = button.dataset.scene;
+        demo.querySelectorAll<HTMLButtonElement>("button[data-scene]").forEach((choice) => {
+          const selected = choice === button;
+          choice.classList.toggle("is-selected", selected);
+          choice.setAttribute("aria-pressed", String(selected));
+        });
+      });
+    });
+  });
+</script>
