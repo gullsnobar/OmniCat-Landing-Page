@@ -16,6 +16,9 @@ import TaskAltRounded from "@mui/icons-material/TaskAltRounded";
 import HistoryRounded from "@mui/icons-material/HistoryRounded";
 import BoltRounded from "@mui/icons-material/BoltRounded";
 import ReplayRounded from "@mui/icons-material/ReplayRounded";
+import EditNoteRounded from "@mui/icons-material/EditNoteRounded";
+import ImageRounded from "@mui/icons-material/ImageRounded";
+import StorefrontRounded from "@mui/icons-material/StorefrontRounded";
 
 const icons = {
   Description: DescriptionRounded,
@@ -35,6 +38,9 @@ const icons = {
   History: HistoryRounded,
   Bolt: BoltRounded,
   Replay: ReplayRounded,
+  EditNote: EditNoteRounded,
+  Image: ImageRounded,
+  Storefront: StorefrontRounded,
 } as const;
 
 interface ToolIconProps extends Omit<SvgIconProps, "fontSize"> {

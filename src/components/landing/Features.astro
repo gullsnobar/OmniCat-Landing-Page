@@ -1,18 +1,15 @@
 ---
-import { productFeatures } from "../../data/features";
-import FeatureCard from "./FeatureCard.astro";
+import { pillars, platformFeatures } from "../../data/features";
+import { appLinks } from "../../config/app-links";
+import ToolIcon from "../ui/ToolIcon";
+import FeatureVisual from "./FeatureVisual.astro";
 
-const filters = [
-  { id: "all", label: "All tools" },
-  { id: "content", label: "Content" },
-  { id: "images", label: "Images" },
-  { id: "shopify", label: "Shopify" },
-];
+const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works" : appLinks.signup);
 ---
 
-<section class="section features features-catalog" id="features" aria-labelledby="features-heading" style="scroll-mt: 96px">
+<section class="section features" id="features" aria-labelledby="features-heading">
   <div class="container">
-    <div class="catalog-heading">
+    <div class="section-intro section-intro--split">
       <div>
         <p class="eyebrow">One workspace. Every creative tool.</p>
         <h2 id="features-heading">Everything your product needs, from listing to launch.</h2>
@@ -20,49 +17,197 @@ const filters = [
       <p>Write conversion-focused content, improve product photography, and publish polished results through one connected Shopify workflow.</p>
     </div>
 
-    <div class="catalog-toolbar">
-      <div class="catalog-filters" role="group" aria-label="Filter OmniCat tools">
-        {filters.map((filter, index) => (
-          <button
-            type="button"
-            data-feature-filter={filter.id}
-            aria-pressed={index === 0 ? "true" : "false"}
-            class:list={{ "is-active": index === 0 }}
-          >{filter.label}</button>
-        ))}
-      </div>
-      <p><strong data-feature-count>{productFeatures.length}</strong> connected capabilities</p>
+    <div class="pillar-tabs" role="tablist" aria-label="Tool categories">
+      {pillars.map((pillar, index) => (
+        <button
+          type="button"
+          role="tab"
+          class="pillar-tab"
+          id={`pillar-tab-${pillar.id}`}
+          aria-controls={`pillar-panel-${pillar.id}`}
+          aria-selected={index === 0 ? "true" : "false"}
+          tabindex={index === 0 ? 0 : -1}
+          data-pillar-tab={pillar.id}
+        >
+          <span class="pillar-tab__icon" aria-hidden="true"><ToolIcon name={pillar.icon} size={22} /></span>
+          <span class="pillar-tab__text">
+            <b>{pillar.label}</b>
+            <small>{pillar.tagline}</small>
+          </span>
+          <span class="pillar-tab__count">{pillar.tools.length} tools</span>
+        </button>
+      ))}
     </div>
 
-    <div class="tool-catalog" data-feature-catalog data-filter="all">
-      {productFeatures.map((feature) => <FeatureCard feature={feature} />)}
+    {pillars.map((pillar, pillarIndex) => (
+      <div
+        class={`pillar-panel pillar-panel--${pillar.id}`}
+        role="tabpanel"
+        id={`pillar-panel-${pillar.id}`}
+        aria-labelledby={`pillar-tab-${pillar.id}`}
+        data-pillar-panel={pillar.id}
+        hidden={pillarIndex !== 0}
+      >
+        <ul class="tool-list" role="tablist" aria-orientation="vertical" aria-label={`${pillar.label} tools`}>
+          {pillar.tools.map((tool, index) => (
+            <li role="presentation" id={`feature-${tool.id}`} class:list={["tool-item", { "is-active": index === 0 }]} data-tool-item={tool.id}>
+              <button
+                type="button"
+                role="tab"
+                id={`tool-tab-${tool.id}`}
+                aria-controls={`tool-visual-${tool.id}`}
+                aria-selected={index === 0 ? "true" : "false"}
+                tabindex={index === 0 ? 0 : -1}
+                data-tool-tab={tool.id}
+              >
+                <span class="tool-item__icon" aria-hidden="true"><ToolIcon name={tool.icon} size={20} /></span>
+                <span class="tool-item__name">{tool.name}</span>
+                <svg class="tool-item__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18" /></svg>
+              </button>
+              <div class="tool-item__detail">
+                <div>
+                  <p>{tool.description}</p>
+                  <div class="tool-item__labels">{tool.labels.map((label) => <span>{label}</span>)}</div>
+                  <a href={toolHref(pillar.id)}>
+                    {tool.action}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" /></svg>
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div class="tool-stage">
+          {pillar.tools.map((tool, index) => (
+            <div
+              class="tool-visual"
+              role="tabpanel"
+              id={`tool-visual-${tool.id}`}
+              aria-labelledby={`tool-tab-${tool.id}`}
+              data-tool-visual={tool.id}
+              hidden={index !== 0}
+            >
+              <FeatureVisual visual={tool.visual} />
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="platform-strip">
+      <p>Built into every tool</p>
+      <ul>
+        {platformFeatures.map((feature) => (
+          <li id={`feature-${feature.id}`}>
+            <span aria-hidden="true"><ToolIcon name={feature.icon} size={20} /></span>
+            <div>
+              <b>{feature.name}</b>
+              <small>{feature.description}</small>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
 
 <script>
-  const catalog = document.querySelector<HTMLElement>("[data-feature-catalog]");
-  const filters = document.querySelectorAll<HTMLButtonElement>("[data-feature-filter]");
-  const count = document.querySelector<HTMLElement>("[data-feature-count]");
+  const pillarTabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-pillar-tab]"));
+  const pillarPanels = Array.from(document.querySelectorAll<HTMLElement>("[data-pillar-panel]"));
+  const compactLayout = window.matchMedia("(max-width: 960px)");
 
-  filters.forEach((button) => {
-    button.addEventListener("click", () => {
-      const selected = button.dataset.featureFilter ?? "all";
-      filters.forEach((filter) => {
-        const active = filter === button;
-        filter.classList.toggle("is-active", active);
-        filter.setAttribute("aria-pressed", String(active));
+  function selectPillar(id: string) {
+    pillarTabs.forEach((tab) => {
+      const selected = tab.dataset.pillarTab === id;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    pillarPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.pillarPanel !== id;
+    });
+  }
+
+  function selectTool(panel: HTMLElement, id: string) {
+    panel.querySelectorAll<HTMLElement>("[data-tool-item]").forEach((item) => {
+      const selected = item.dataset.toolItem === id;
+      item.classList.toggle("is-active", selected);
+      const tab = item.querySelector<HTMLButtonElement>("[data-tool-tab]");
+      tab?.setAttribute("aria-selected", String(selected));
+      if (tab) tab.tabIndex = selected ? 0 : -1;
+    });
+    panel.querySelectorAll<HTMLElement>("[data-tool-visual]").forEach((visual) => {
+      visual.hidden = visual.dataset.toolVisual !== id;
+    });
+  }
+
+  // Roving focus for both tab lists: arrows move, Home/End jump.
+  function handleArrowKeys(tabs: HTMLButtonElement[], event: KeyboardEvent, keys: [string, string]) {
+    const current = tabs.indexOf(event.currentTarget as HTMLButtonElement);
+    let next = -1;
+    if (event.key === keys[0]) next = (current - 1 + tabs.length) % tabs.length;
+    if (event.key === keys[1]) next = (current + 1) % tabs.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = tabs.length - 1;
+    if (next < 0) return;
+    event.preventDefault();
+    tabs[next].focus();
+    tabs[next].click();
+  }
+
+  pillarTabs.forEach((tab) => {
+    tab.addEventListener("click", () => selectPillar(tab.dataset.pillarTab ?? "content"));
+    tab.addEventListener("keydown", (event) => handleArrowKeys(pillarTabs, event, ["ArrowLeft", "ArrowRight"]));
+  });
+
+  pillarPanels.forEach((panel) => {
+    const toolTabs = Array.from(panel.querySelectorAll<HTMLButtonElement>("[data-tool-tab]"));
+    const stage = panel.querySelector<HTMLElement>(".tool-stage");
+    toolTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        selectTool(panel, tab.dataset.toolTab ?? "");
+        // On stacked layouts the preview sits above the list, so bring it back into view.
+        if (compactLayout.matches && stage && stage.getBoundingClientRect().top < 0) {
+          stage.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
-      if (!catalog) return;
-      catalog.dataset.filter = selected;
-      const cards = catalog.querySelectorAll<HTMLElement>("[data-feature-card]");
-      let visible = 0;
-      cards.forEach((card) => {
-        const show = selected === "all" || card.dataset.category === selected;
-        card.hidden = !show;
-        if (show) visible += 1;
+      tab.addEventListener("keydown", (event) => handleArrowKeys(toolTabs, event, ["ArrowUp", "ArrowDown"]));
+    });
+  });
+
+  // Footer links point at #feature-<id>; open the matching category and tool.
+  function openFromHash() {
+    const item = document.getElementById(location.hash.slice(1));
+    const panel = item?.closest<HTMLElement>("[data-pillar-panel]");
+    if (!item || !panel || !item.dataset.toolItem) return;
+    selectPillar(panel.dataset.pillarPanel ?? "content");
+    selectTool(panel, item.dataset.toolItem);
+    item.scrollIntoView({ block: "center" });
+  }
+
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+
+  document.querySelectorAll<HTMLElement>("[data-enhancer-demo]").forEach((demo) => {
+    const range = demo.querySelector<HTMLInputElement>("[data-enhancer-range]");
+    if (!range) return;
+    const update = () => {
+      demo.style.setProperty("--split", `${range.value}%`);
+      range.setAttribute("aria-valuetext", `Comparison divider at ${range.value} percent`);
+    };
+    range.addEventListener("input", update);
+    update();
+  });
+
+  document.querySelectorAll<HTMLElement>("[data-background-demo]").forEach((demo) => {
+    const prompt = demo.querySelector<HTMLElement>("[data-scene-prompt]");
+    const choices = demo.querySelectorAll<HTMLButtonElement>("button[data-scene]");
+    choices.forEach((button) => {
+      button.addEventListener("click", () => {
+        demo.dataset.scene = button.dataset.scene;
+        if (prompt) prompt.textContent = button.dataset.prompt ?? "";
+        choices.forEach((choice) => choice.setAttribute("aria-pressed", String(choice === button)));
       });
-      if (count) count.textContent = String(visible);
     });
   });
 </script>

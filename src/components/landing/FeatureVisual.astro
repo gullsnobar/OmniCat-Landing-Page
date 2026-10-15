@@ -1,0 +1,409 @@
+---
+import { Image } from "astro:assets";
+import type { ToolVisual } from "../../data/features";
+import ToolIcon from "../ui/ToolIcon";
+
+import serumPlinth from "../../assets/features/serum-plinth.jpg";
+import serumBotanical from "../../assets/features/serum-botanical.jpg";
+import serumHands from "../../assets/features/serum-hands.jpg";
+import creamJar from "../../assets/features/cream-jar.jpg";
+import modelPortrait from "../../assets/features/model-portrait.jpg";
+import botanicalFlatlay from "../../assets/features/botanical-flatlay.jpg";
+import watch from "../../assets/features/watch.jpg";
+import smartwatch from "../../assets/features/smartwatch.jpg";
+import headphones from "../../assets/features/headphones.jpg";
+import backpack from "../../assets/features/backpack.jpg";
+import bottles from "../../assets/features/bottles.jpg";
+
+interface Props {
+  visual: ToolVisual;
+}
+
+const { visual } = Astro.props;
+
+// Shared responsive presets so each preview requests a sensibly sized WebP.
+const full = { widths: [640, 1100, 1500], sizes: "(max-width: 960px) 94vw, 820px", quality: 72 };
+const half = { widths: [400, 800], sizes: "(max-width: 899px) 60vw, 380px" };
+const thumb = { widths: [120, 240], sizes: "120px" };
+
+const batchItems = [
+  { src: serumPlinth, name: "Amber serum", state: "done" },
+  { src: watch, name: "Classic watch", state: "done" },
+  { src: smartwatch, name: "Smart watch", state: "done" },
+  { src: headphones, name: "Studio headphones", state: "done" },
+  { src: backpack, name: "Commuter pack", state: "working" },
+  { src: bottles, name: "Hair care set", state: "queued" },
+];
+
+const auditRows = [
+  { src: serumPlinth, name: "Amber Renewal Serum", issue: "Complete", tone: "ok" },
+  { src: creamJar, name: "Barrier cream", issue: "Missing description", tone: "warn" },
+  { src: headphones, name: "Studio headphones", issue: "Low-resolution image", tone: "bad" },
+  { src: backpack, name: "Commuter pack", issue: "Inconsistent background", tone: "warn" },
+  { src: watch, name: "Classic watch", issue: "Complete", tone: "ok" },
+];
+
+const check = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`;
+const arrow = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>`;
+---
+
+{visual === "descriptions" && (
+  <div class="fv fv-desc">
+    <figure class="fv-desc__photo">
+      <Image src={creamJar} alt="Barrier cream jar on a soft beige set" {...half} />
+      <figcaption class="fv-glass"><b>Input</b> 1 photo · 4 product notes</figcaption>
+    </figure>
+    <div class="fv-card fv-desc__doc">
+      <div class="fv-card__head"><span>Product description</span><b class="fv-badge fv-badge--ok"><Fragment set:html={check} />Ready</b></div>
+      <small class="fv-overline">Whipped Barrier Cream · 50 ml</small>
+      <strong class="fv-desc__title">Deep comfort for dry, stressed skin.</strong>
+      <p>A cloud-light cream with ceramides and oat lipids that helps restore your skin barrier overnight, without the heavy feel.</p>
+      <ul class="fv-checks">
+        <li><Fragment set:html={check} />Locks in moisture all day</li>
+        <li><Fragment set:html={check} />Fragrance-free and gentle</li>
+        <li><Fragment set:html={check} />Absorbs fast, soft matte finish</li>
+      </ul>
+      <div class="fv-tags"><span>SEO title</span><span>Benefits</span><span>Voice: Calm</span></div>
+    </div>
+    <div class="fv-card fv-desc__seo">
+      <small>yourstore.com › products › barrier-cream</small>
+      <b>Whipped Barrier Cream for Dry Skin | Fragrance-Free</b>
+      <p>Ceramide-rich cream that comforts dry, stressed skin overnight.</p>
+    </div>
+  </div>
+)}
+
+{visual === "ads" && (
+  <div class="fv fv-ads">
+    <div class="fv-card fv-ads__post">
+      <div class="fv-ads__account"><span class="fv-avatar">S</span><span><b>solenne.skin</b><small>Sponsored</small></span></div>
+      <Image src={modelPortrait} alt="Campaign portrait used in a social ad" {...half} />
+      <div class="fv-ads__cta"><span>Shop now</span><Fragment set:html={arrow} /></div>
+      <p><b>solenne.skin</b> Your skin, just calmer. Two drops in the morning and you are set for the day.</p>
+    </div>
+    <div class="fv-ads__variants">
+      <small class="fv-overline">3 variations · Meta, Google, TikTok</small>
+      <div class="fv-card fv-ads__variant is-selected">
+        <span class="fv-ads__channel">Meta · Primary text</span>
+        <p>Your skin, just calmer. Two drops in the morning and you are set for the day.</p>
+        <em>Angle: Simplicity</em>
+      </div>
+      <div class="fv-card fv-ads__variant">
+        <span class="fv-ads__channel">Google · Headline</span>
+        <p>Fragrance-Free Calming Serum | Free Shipping Over $40</p>
+        <em>Angle: Search intent</em>
+      </div>
+      <div class="fv-card fv-ads__variant">
+        <span class="fv-ads__channel">TikTok · Hook</span>
+        <p>“I stopped layering five products. This one does the job.”</p>
+        <em>Angle: Routine swap</em>
+      </div>
+    </div>
+  </div>
+)}
+
+{visual === "blog" && (
+  <div class="fv fv-blog">
+    <div class="fv-card fv-blog__doc">
+      <div class="fv-window"><i></i><i></i><i></i><span>Draft · 1,480 words · 7 min read</span></div>
+      <Image class="fv-blog__hero" src={botanicalFlatlay} alt="Botanical skincare flat lay used as the article cover" {...full} />
+      <div class="fv-blog__body">
+        <small class="fv-overline">Skincare guide</small>
+        <strong class="fv-blog__title">The 5-minute morning routine for calm, healthy skin</strong>
+        <ol class="fv-blog__outline">
+          <li class="is-done"><Fragment set:html={check} />Why a simpler routine works better</li>
+          <li class="is-done"><Fragment set:html={check} />Step 1: Cleanse without stripping</li>
+          <li class="is-done"><Fragment set:html={check} />Step 2: Layer a lightweight serum</li>
+          <li class="is-writing"><i></i>Step 3: Seal in moisture <span>Writing…</span></li>
+          <li class="is-queued"><i></i>FAQ: Do I need sunscreen indoors?</li>
+        </ol>
+      </div>
+    </div>
+    <div class="fv-card fv-blog__score">
+      <span class="fv-ring" style="--value: 92"><b>92</b></span>
+      <span><b>SEO score</b><small>“morning skincare routine”</small></span>
+    </div>
+  </div>
+)}
+
+{visual === "humanizer" && (
+  <div class="fv fv-human">
+    <div class="fv-card fv-human__card fv-human__card--before">
+      <div class="fv-card__head"><span>AI draft</span><b class="fv-badge fv-badge--muted">Robotic</b></div>
+      <p><mark>Unlock the transformative power</mark> of hydration and <mark>elevate your skincare journey</mark> with our serum, which <mark>seamlessly integrates</mark> into your daily routine.</p>
+    </div>
+    <div class="fv-human__step"><span><ToolIcon name="Psychology" size={16} />Humanize · Tone: Warm</span></div>
+    <div class="fv-card fv-human__card fv-human__card--after">
+      <div class="fv-card__head"><span>Humanized</span><b class="fv-badge fv-badge--ok"><Fragment set:html={check} />Natural</b></div>
+      <p><mark>Give dry skin a drink</mark> with a serum <mark>that fits right into</mark> your morning. <mark>Two drops before moisturizer</mark> is all it takes.</p>
+      <div class="fv-human__meta">
+        <span><b>Grade 6</b><small>Readability</small></span>
+        <span><b>100%</b><small>Facts kept</small></span>
+        <span><b>Warm</b><small>Tone</small></span>
+      </div>
+    </div>
+  </div>
+)}
+
+{visual === "photoshoot" && (
+  <div class="fv fv-shoot">
+    <Image class="fv-fill" src={serumHands} alt="Generated campaign concept of a model holding the amber serum" {...full} />
+    <span class="fv-glass fv-shoot__tag"><i class="fv-dot"></i>Concept 02 · Warm editorial</span>
+    <div class="fv-glass fv-shoot__input">
+      <Image src={serumPlinth} alt="" {...thumb} />
+      <span><small>Your product</small><b>Amber Renewal Serum</b></span>
+      <Fragment set:html={arrow} />
+      <span><small>Output</small><b>4 concepts</b></span>
+    </div>
+    <div class="fv-shoot__rail" aria-hidden="true">
+      <Image src={serumBotanical} alt="" {...thumb} />
+      <Image class="is-selected" src={serumHands} alt="" {...thumb} />
+      <Image src={modelPortrait} alt="" {...thumb} />
+    </div>
+  </div>
+)}
+
+{visual === "enhancer" && (
+  <div class="fv fv-enhance" data-enhancer-demo style="--split: 50%">
+    <Image class="fv-fill fv-enhance__before" src={serumBotanical} width={150} alt="Original low-resolution product photo" />
+    <Image class="fv-fill fv-enhance__after" src={serumBotanical} alt="Enhanced high-resolution product photo" {...full} />
+    <span class="fv-glass fv-enhance__label fv-enhance__label--before">Original · 1024 px</span>
+    <span class="fv-enhance__label fv-enhance__label--after">Enhanced · 4096 px</span>
+    <label class="visually-hidden" for="enhancer-range">Compare original and enhanced image</label>
+    <input id="enhancer-range" class="fv-enhance__range" type="range" min="0" max="100" value="50" data-enhancer-range aria-valuetext="Comparison divider at 50 percent" />
+    <span class="fv-enhance__divider" aria-hidden="true">
+      <i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 3 12 9 18"/><polyline points="15 6 21 12 15 18"/></svg></i>
+    </span>
+    <div class="fv-glass fv-enhance__status">
+      <span><Fragment set:html={check} />Detail recovery</span>
+      <span><Fragment set:html={check} />Noise reduction</span>
+      <span><Fragment set:html={check} />4× upscale</span>
+    </div>
+  </div>
+)}
+
+{visual === "background" && (
+  <div class="fv fv-bg" data-background-demo data-scene="plinth">
+    <Image class="fv-fill fv-bg__scene fv-bg__scene--plinth" src={serumPlinth} alt="Serum on a sunlit plinth with palm shadows" {...full} />
+    <Image class="fv-fill fv-bg__scene fv-bg__scene--botanical" src={serumBotanical} alt="Serum on an oak board with linen and eucalyptus" {...full} />
+    <span class="fv-glass fv-bg__badge"><Fragment set:html={check} />Product preserved</span>
+    <div class="fv-glass fv-bg__panel">
+      <div class="fv-bg__prompt">
+        <ToolIcon name="AutoFixHigh" size={18} />
+        <span data-scene-prompt>Warm morning light on a travertine plinth, soft palm shadows</span>
+      </div>
+      <div class="fv-bg__choices" role="group" aria-label="Choose a generated background">
+        <button type="button" data-scene="plinth" aria-pressed="true" data-prompt="Warm morning light on a travertine plinth, soft palm shadows">
+          <Image src={serumPlinth} alt="" {...thumb} /><span>Sunlit plinth</span>
+        </button>
+        <button type="button" data-scene="botanical" aria-pressed="false" data-prompt="Natural oak board with linen and fresh eucalyptus">
+          <Image src={serumBotanical} alt="" {...thumb} /><span>Botanical</span>
+        </button>
+        <span class="fv-bg__new" aria-hidden="true"><i>+</i><span>New scene</span></span>
+      </div>
+    </div>
+  </div>
+)}
+
+{visual === "remover" && (
+  <div class="fv fv-remove">
+    <div class="fv-remove__frame">
+      <Image class="fv-fill fv-remove__before" src={smartwatch} alt="Original smartwatch product photo" {...full} />
+      <div class="fv-remove__after"><Image class="fv-fill" src={smartwatch} alt="Smartwatch cut out on a transparent background" {...full} /></div>
+      <span class="fv-remove__divider" aria-hidden="true"></span>
+      <span class="fv-glass fv-remove__label--before">Original</span>
+      <span class="fv-remove__label--after">Cutout</span>
+    </div>
+    <div class="fv-card fv-remove__export">
+      <div class="fv-remove__swatches" aria-hidden="true">
+        <span style="--swatch: #efe7ff"><Image src={smartwatch} alt="" {...thumb} /></span>
+        <span style="--swatch: #ffe9dc"><Image src={smartwatch} alt="" {...thumb} /></span>
+        <span style="--swatch: #dff3ea"><Image src={smartwatch} alt="" {...thumb} /></span>
+      </div>
+      <span class="fv-remove__file"><b>watch-cutout.png</b><small>Transparent · 2400 × 2400</small></span>
+      <span class="fv-button">Export</span>
+    </div>
+  </div>
+)}
+
+{visual === "batch" && (
+  <div class="fv fv-batch">
+    <div class="fv-card fv-batch__panel">
+      <div class="fv-card__head"><span>Batch · Summer catalog</span><b class="fv-badge">18 of 24 done</b></div>
+      <div class="fv-progress"><i style="width: 75%"></i></div>
+      <div class="fv-batch__grid">
+        {batchItems.map((item) => (
+          <figure class={`is-${item.state}`}>
+            <Image src={item.src} alt={item.name} widths={[200, 400]} sizes="200px" />
+            <figcaption>
+              <span>{item.name}</span>
+              {item.state === "done" && <b class="fv-batch__state"><Fragment set:html={check} /></b>}
+              {item.state === "working" && <b class="fv-batch__state fv-batch__state--working">68%</b>}
+              {item.state === "queued" && <b class="fv-batch__state fv-batch__state--queued">Queued</b>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+    <div class="fv-card fv-batch__preset">
+      <small class="fv-overline">Preset applied to all</small>
+      <ul class="fv-checks">
+        <li><Fragment set:html={check} />Enhance detail</li>
+        <li><Fragment set:html={check} />Square crop 1:1</li>
+        <li><Fragment set:html={check} />Resize to 2048 px</li>
+        <li><Fragment set:html={check} />Export as WebP</li>
+      </ul>
+    </div>
+  </div>
+)}
+
+{visual === "logo" && (
+  <div class="fv fv-logo">
+    <figure class="fv-logo__board">
+      <Image class="fv-fill" src={creamJar} alt="Product photo with the selected logo applied" {...half} />
+      <figcaption><span class="fv-logo__applied">Solenne</span><small>Applied to product imagery</small></figcaption>
+    </figure>
+    <div class="fv-logo__grid">
+      <figure class="fv-logo__tile">
+        <span class="fv-mark fv-mark--monogram">S</span>
+        <figcaption>01 · Monogram</figcaption>
+      </figure>
+      <figure class="fv-logo__tile">
+        <span class="fv-mark fv-mark--word"><span>solenne<i>.</i></span></span>
+        <figcaption>02 · Wordmark</figcaption>
+      </figure>
+      <figure class="fv-logo__tile">
+        <span class="fv-mark fv-mark--emblem">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M16 28C16 18 10 12 4 10c2 9 6 15 12 18Z"/><path d="M16 28c0-10 6-16 12-18-2 9-6 15-12 18Z"/><path d="M16 28V8"/></svg>
+          SOLENNE
+        </span>
+        <figcaption>03 · Emblem</figcaption>
+      </figure>
+      <figure class="fv-logo__tile fv-logo__tile--selected">
+        <span class="fv-mark fv-mark--serif">Solenne</span>
+        <figcaption>04 · Serif <b>Selected</b></figcaption>
+      </figure>
+    </div>
+  </div>
+)}
+
+{visual === "watermark" && (
+  <div class="fv fv-wm">
+    <Image class="fv-fill" src={headphones} alt="Headphones product photo, shown with and without a watermark" {...full} />
+    <svg class="fv-wm__overlay" aria-hidden="true">
+      <defs>
+        <pattern id="fv-wm-pattern" width="170" height="90" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)">
+          <text x="0" y="40" fill="rgba(255,255,255,.72)" stroke="rgba(17,24,39,.18)" stroke-width=".6" font-size="20" font-weight="800" letter-spacing="3" font-family="Inter Variable, sans-serif">© SAMPLE</text>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#fv-wm-pattern)" />
+    </svg>
+    <span class="fv-wm__divider" aria-hidden="true"></span>
+    <span class="fv-glass fv-wm__label--before">Before</span>
+    <span class="fv-wm__label--after">Clean</span>
+    <span class="fv-glass fv-wm__note"><ToolIcon name="TaskAlt" size={16} />For images you own or have rights to use</span>
+  </div>
+)}
+
+{visual === "shopify" && (
+  <div class="fv fv-shop">
+    <div class="fv-card fv-shop__window">
+      <div class="fv-shop__bar">
+        <span class="fv-shop__crumb"><ToolIcon name="ShoppingBag" size={16} />Products</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg>
+        <b>Amber Renewal Serum</b>
+        <span class="fv-badge fv-badge--warn">Draft</span>
+      </div>
+      <div class="fv-shop__grid">
+        <div class="fv-shop__fields">
+          <div><small>Title</small><span class="fv-field">Amber Renewal Serum · 30 ml</span></div>
+          <div>
+            <small>Description <em class="fv-omni">Written by OmniCat</em></small>
+            <div class="fv-field fv-field--area">
+              <b>Overnight renewal, bottled.</b>
+              <p>A lightweight bakuchiol and squalane serum that smooths texture while you sleep.</p>
+            </div>
+          </div>
+          <div class="fv-shop__meta">
+            <span><small>Price</small><b>$38.00</b></span>
+            <span><small>SKU</small><b>ARS-030</b></span>
+          </div>
+        </div>
+        <div class="fv-shop__media">
+          <small>Media <em class="fv-omni">3 new</em></small>
+          <div class="fv-shop__gallery">
+            <Image src={serumPlinth} alt="Serum product image" widths={[300, 600]} sizes="240px" />
+            <Image src={serumBotanical} alt="" {...thumb} />
+            <Image src={serumHands} alt="" {...thumb} />
+          </div>
+        </div>
+      </div>
+      <div class="fv-shop__footer">
+        <span><i class="fv-dot"></i>Linked to OmniCat · 2 changes ready</span>
+        <span class="fv-button fv-button--store">Send to store</span>
+      </div>
+    </div>
+  </div>
+)}
+
+{visual === "audit" && (
+  <div class="fv fv-audit">
+    <div class="fv-card fv-audit__panel">
+      <div class="fv-audit__summary">
+        <div class="fv-audit__score">
+          <small class="fv-overline">Catalog health</small>
+          <b>82%</b>
+          <span>143 products scanned</span>
+        </div>
+        <div class="fv-audit__breakdown">
+          <div class="fv-audit__bar" aria-hidden="true"><i class="is-ok" style="width: 82%"></i><i class="is-warn" style="width: 11%"></i><i class="is-bad" style="width: 7%"></i></div>
+          <ul>
+            <li class="is-ok"><i></i>Complete <b>117</b></li>
+            <li class="is-warn"><i></i>Needs copy <b>16</b></li>
+            <li class="is-bad"><i></i>Weak images <b>10</b></li>
+          </ul>
+        </div>
+      </div>
+      <ul class="fv-audit__rows">
+        {auditRows.map((row) => (
+          <li>
+            <Image src={row.src} alt="" {...thumb} />
+            <b>{row.name}</b>
+            <span class={`fv-audit__issue is-${row.tone}`}>{row.issue}</span>
+            <span class="fv-audit__action">{row.tone === "ok" ? "View" : "Fix"}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+)}
+
+{visual === "review" && (
+  <div class="fv fv-review">
+    <div class="fv-card fv-review__panel">
+      <div class="fv-card__head"><span>Review changes · Amber Renewal Serum</span><b class="fv-badge fv-badge--warn">Awaiting approval</b></div>
+      <div class="fv-review__diff">
+        <div class="fv-review__col fv-review__col--old">
+          <small class="fv-overline">Live on store</small>
+          <Image src={serumPlinth} alt="Current product image" widths={[300, 600]} sizes="280px" />
+          <p>Serum 30ml. Good for skin. Use every day.</p>
+        </div>
+        <div class="fv-review__col fv-review__col--new">
+          <small class="fv-overline">Proposed by OmniCat</small>
+          <Image src={serumBotanical} alt="Proposed product image" widths={[300, 600]} sizes="280px" />
+          <p><b>Overnight renewal, bottled.</b> A lightweight bakuchiol serum that smooths texture while you sleep.</p>
+        </div>
+      </div>
+      <ul class="fv-review__checks">
+        <li class="is-on"><i></i>Description</li>
+        <li class="is-on"><i></i>Images (3)</li>
+        <li><i></i>SEO title</li>
+      </ul>
+      <div class="fv-review__actions">
+        <span class="fv-button fv-button--ghost">Edit</span>
+        <span class="fv-button">Approve &amp; publish</span>
+      </div>
+    </div>
+    <span class="fv-glass fv-review__note"><ToolIcon name="TaskAlt" size={16} />Nothing goes live until you approve</span>
+  </div>
+)}
