@@ -1,27 +1,55 @@
+---
+import { Image } from "astro:assets";
+import { appLinks } from "../../config/app-links";
+import ToolIcon from "../ui/ToolIcon";
+import bottle from "../../assets/features/bottle-marble.jpg";
+
+const points = [
+  { icon: "Scissors", title: "Clean backgrounds", text: "Remove clutter or drop in a fresh studio scene." },
+  { icon: "Sparkles", title: "Sharper detail", text: "Upscale and sharpen for zoom-ready product pages." },
+  { icon: "ShieldCheck", title: "Still your product", text: "Shape, color, and label stay recognizable." },
+];
+---
+
 <section class="section visual-results" aria-labelledby="visual-heading">
   <div class="container visual-results__grid">
     <div class="visual-results__copy">
       <p class="eyebrow">Product visuals, refined</p>
       <h2 id="visual-heading">From quick product shot to storefront ready.</h2>
-      <p>Remove visual distractions, improve detail, and build a professional product presentation from the asset you already have.</p>
-      <ul>
-        <li><span>01</span><div><b>Remove or replace the background</b><p>Start with a clean cutout or a new studio setting.</p></div></li>
-        <li><span>02</span><div><b>Enhance product detail</b><p>Improve clarity and resolution for high-impact placements.</p></div></li>
-        <li><span>03</span><div><b>Keep the product recognizable</b><p>Review every result before it moves into your store.</p></div></li>
+      <p class="visual-results__lead">Turn the photos you already have into clean, consistent product images.</p>
+      <ul class="visual-results__points">
+        {points.map((point) => (
+          <li>
+            <span aria-hidden="true"><ToolIcon name={point.icon} size={20} /></span>
+            <div>
+              <h3>{point.title}</h3>
+              <p>{point.text}</p>
+            </div>
+          </li>
+        ))}
       </ul>
+      <a class="text-link text-link--accent visual-results__cta" href={appLinks.signup}>
+        Try it free
+        <ToolIcon name="ArrowRight" size={16} strokeWidth={2} />
+      </a>
     </div>
-    <div class="comparison" data-comparison>
-      <div class="comparison__stage">
-        <img class="comparison__image comparison__image--before" src="/product-bottle.jpg" width="800" height="800" alt="Original product photo before enhancement" loading="lazy" />
-        <div class="comparison__after" data-after>
-          <img class="comparison__image comparison__image--after" src="/product-bottle.jpg" width="800" height="800" alt="Enhanced product photo with a brighter studio treatment" loading="lazy" />
-        </div>
-        <span class="comparison__label comparison__label--before">Before</span>
-        <span class="comparison__label comparison__label--after">After</span>
-        <div class="comparison__line" data-line aria-hidden="true"><span></span></div>
-      </div>
-      <label for="comparison-range">Compare before and after</label>
-      <input id="comparison-range" data-range type="range" min="5" max="95" value="54" aria-valuetext="Comparison divider at 54 percent" />
+
+    <div class="comparison" data-comparison style="--split: 50%">
+      <!-- The "before" is a deliberately low-resolution, flat version of the same photo.
+           The square frame crops a 3:2 photo, so it renders ~1.5x the frame width. -->
+      <Image class="comparison__image comparison__image--before" src={bottle} width={220} alt="Original phone photo of a dropper bottle, soft and dull" />
+      <Image
+        class="comparison__image comparison__image--after"
+        src={bottle}
+        widths={[800, 1200, 1600]}
+        sizes="(max-width: 640px) 140vw, 840px"
+        alt="The same photo after OmniCat, sharp and color-corrected"
+      />
+      <span class="comparison__label comparison__label--before">Before</span>
+      <span class="comparison__label comparison__label--after">After</span>
+      <label class="visually-hidden" for="comparison-range">Compare before and after</label>
+      <input id="comparison-range" class="comparison__range" type="range" min="0" max="100" value="50" data-range aria-valuetext="Comparison divider at 50 percent" />
+      <span class="comparison__line" aria-hidden="true"><i><ToolIcon name="ChevronsLeftRight" size={18} strokeWidth={2} /></i></span>
     </div>
   </div>
 </section>
@@ -29,14 +57,10 @@
 <script>
   document.querySelectorAll<HTMLElement>("[data-comparison]").forEach((comparison) => {
     const range = comparison.querySelector<HTMLInputElement>("[data-range]");
-    const after = comparison.querySelector<HTMLElement>("[data-after]");
-    const line = comparison.querySelector<HTMLElement>("[data-line]");
-    if (!range || !after || !line) return;
+    if (!range) return;
     const update = () => {
-      const value = range.value;
-      after.style.clipPath = `inset(0 0 0 ${value}%)`;
-      line.style.left = `${value}%`;
-      range.setAttribute("aria-valuetext", `Comparison divider at ${value} percent`);
+      comparison.style.setProperty("--split", `${range.value}%`);
+      range.setAttribute("aria-valuetext", `Comparison divider at ${range.value} percent`);
     };
     range.addEventListener("input", update);
     update();
