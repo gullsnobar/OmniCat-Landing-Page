@@ -699,9 +699,6 @@ p { text-wrap: pretty; }
 .footer__main { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 96px; padding-bottom: 48px; }
 .footer__brand > p { max-width: 340px; margin: 16px 0 12px; color: #6b7280; font-size: 15px; line-height: 1.6; }
 .footer__brand > span { color: #9ca3af; font-size: 13px; }
-.footer__brand > small { display: block; margin-top: 8px; color: #9ca3af; font-size: 12px; }
-.footer__brand > small a { color: #6b7280; text-decoration: underline; text-underline-offset: 3px; }
-.footer__brand > small a:hover { color: #111827; }
 .footer__links { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; }
 .footer__links div { display: grid; align-content: start; gap: 10px; }
 .footer__links h2 { margin-bottom: 8px; color: #374151; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
