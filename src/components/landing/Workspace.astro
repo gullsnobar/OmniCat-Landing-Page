@@ -1,68 +1,65 @@
+---
+import { Image } from "astro:assets";
+import ToolIcon from "../ui/ToolIcon";
+import serumPlinth from "../../assets/features/serum-plinth.jpg";
+import modelPortrait from "../../assets/features/model-portrait.jpg";
+import serumBotanical from "../../assets/features/serum-botanical.jpg";
+import creamJar from "../../assets/features/cream-jar.jpg";
+
+const benefits = [
+  { icon: "LayoutDashboard", title: "One dashboard", text: "Switch between copy and visuals without losing context." },
+  { icon: "Coins", title: "Clear credit costs", text: "See the cost before every job. Failed jobs are refunded automatically." },
+  { icon: "History", title: "History you can reuse", text: "Return to past results and reuse what worked." },
+];
+
+const jobs = [
+  { thumb: serumPlinth, tool: "Product description", name: "Amber Renewal Serum", meta: "Ready · 8 credits", time: "Now" },
+  { thumb: modelPortrait, tool: "Ad copy", name: "Autumn launch campaign", meta: "Ready · 12 credits", time: "4m" },
+  { thumb: serumBotanical, tool: "Photo enhancer", name: "Catalog batch 12", meta: "12 images · 64 credits", time: "18m" },
+  { thumb: creamJar, tool: "Background generator", name: "Barrier Cream", meta: "Failed · 6 credits refunded", time: "1h", refunded: true },
+];
+---
+
 <section class="section workspace" aria-labelledby="workspace-heading">
   <div class="container workspace__grid">
     <div class="workspace__copy">
       <p class="eyebrow eyebrow--light">Everything in one workspace</p>
       <h2 id="workspace-heading">Replace the tool shuffle with one connected flow.</h2>
-      <p class="workspace__lead">Bring writing, image editing, and product-content work into a single creative workspace built around the way e-commerce teams operate.</p>
-      <div class="workspace__benefits">
-        <article>
-          <b>01</b>
-          <div>
-            <h3>One unified dashboard</h3>
-            <p>Move between product copy and visual work without rebuilding context.</p>
-          </div>
-        </article>
-        <article>
-          <b>02</b>
-          <div>
-            <h3>Consistent credit-based usage</h3>
-            <p>See what each job costs and keep spend predictable across the toolkit.</p>
-          </div>
-        </article>
-        <article>
-          <b>03</b>
-          <div>
-            <h3>History you can reuse</h3>
-            <p>Return to earlier generations and keep approved work close at hand.</p>
-          </div>
-        </article>
-      </div>
+      <p class="workspace__lead">Copy, visuals, and every past result live next to your products.</p>
+      <ul class="workspace__benefits">
+        {benefits.map((benefit) => (
+          <li>
+            <span aria-hidden="true"><ToolIcon name={benefit.icon} size={20} /></span>
+            <div>
+              <h3>{benefit.title}</h3>
+              <p>{benefit.text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
     <div class="workspace-panel" aria-label="OmniCat generation history preview">
       <div class="workspace-panel__top">
-        <div><span>O</span><b>Workspace</b></div>
-        <small>Generation history</small>
+        <div><span aria-hidden="true">O</span><b>Generation history</b></div>
+        <small>Today</small>
       </div>
       <div class="workspace-panel__summary">
-        <div><small>TODAY</small><b>8 completed jobs</b></div>
-        <span>View all history</span>
+        <div><b>8</b><small>Jobs completed</small></div>
+        <div><b>2,418</b><small>Credits left</small></div>
       </div>
-      <div class="history-list">
-        <article>
-          <img src="/product-bottle.jpg" width="80" height="80" alt="" loading="lazy" />
-          <div><small>PRODUCT DESCRIPTION</small><b>Studio Bottle 01</b><span>Ready · 8 credits</span></div>
-          <em>Now</em>
-        </article>
-        <article>
-          <div class="history-list__thumb" aria-hidden="true">Aa</div>
-          <div><small>AD COPY</small><b>Autumn launch campaign</b><span>Ready · 12 credits</span></div>
-          <em>4m</em>
-        </article>
-        <article>
-          <img src="/product-bottle.jpg" width="80" height="80" alt="" loading="lazy" />
-          <div><small>PHOTO ENHANCER</small><b>Catalog batch 12</b><span>12 images · 64 credits</span></div>
-          <em>18m</em>
-        </article>
-        <article>
-          <div class="history-list__thumb history-list__thumb--blog" aria-hidden="true">B</div>
-          <div><small>BLOG POST</small><b>A better everyday routine</b><span>Draft · 30 credits</span></div>
-          <em>1h</em>
-        </article>
-      </div>
-      <div class="workspace-panel__footer">
-        <span><i></i>All systems ready</span>
-        <b>2,418 credits</b>
-      </div>
+      <ul class="history-list">
+        {jobs.map((job) => (
+          <li class:list={{ "is-refunded": job.refunded }}>
+            <Image src={job.thumb} alt="" widths={[96, 192]} sizes="48px" />
+            <div>
+              <small>{job.tool}</small>
+              <b>{job.name}</b>
+              <span>{job.meta}</span>
+            </div>
+            <em>{job.time}</em>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>

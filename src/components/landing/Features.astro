@@ -1,10 +1,13 @@
 ---
-import { pillars, platformFeatures } from "../../data/features";
+import { pillars } from "../../data/features";
 import { appLinks } from "../../config/app-links";
 import ToolIcon from "../ui/ToolIcon";
 import FeatureVisual from "./FeatureVisual.astro";
 
 const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works" : appLinks.signup);
+const toolAction = (pillarId: string) => (pillarId === "shopify" ? "See how it works" : "Try it free");
+// Full-bleed photo previews get framed inside the stage so every preview sits the same way.
+const photoVisuals = new Set(["photoshoot", "enhancer", "background", "remover", "watermark"]);
 ---
 
 <section class="section features" id="features" aria-labelledby="features-heading">
@@ -14,7 +17,7 @@ const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works"
         <p class="eyebrow">One workspace. Every creative tool.</p>
         <h2 id="features-heading">Everything your product needs, from listing to launch.</h2>
       </div>
-      <p>Write conversion-focused content, improve product photography, and publish polished results through one connected Shopify workflow.</p>
+      <p>Write product copy, refine photos, and publish to Shopify from one place.</p>
     </div>
 
     <div class="pillar-tabs" role="tablist" aria-label="Tool categories">
@@ -29,12 +32,9 @@ const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works"
           tabindex={index === 0 ? 0 : -1}
           data-pillar-tab={pillar.id}
         >
-          <span class="pillar-tab__icon" aria-hidden="true"><ToolIcon name={pillar.icon} size={22} /></span>
-          <span class="pillar-tab__text">
-            <b>{pillar.label}</b>
-            <small>{pillar.tagline}</small>
-          </span>
-          <span class="pillar-tab__count">{pillar.tools.length} tools</span>
+          <ToolIcon name={pillar.icon} size={18} />
+          <span class="pillar-tab__label">{pillar.label}</span>
+          <span class="pillar-tab__count" aria-label={`${pillar.tools.length} tools`}>{pillar.tools.length}</span>
         </button>
       ))}
     </div>
@@ -60,17 +60,16 @@ const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works"
                 tabindex={index === 0 ? 0 : -1}
                 data-tool-tab={tool.id}
               >
-                <span class="tool-item__icon" aria-hidden="true"><ToolIcon name={tool.icon} size={20} /></span>
+                <span class="tool-item__icon" aria-hidden="true"><ToolIcon name={tool.icon} size={18} /></span>
                 <span class="tool-item__name">{tool.name}</span>
-                <svg class="tool-item__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18" /></svg>
+                <span class="tool-item__chevron" aria-hidden="true"><ToolIcon name="ChevronRight" size={16} strokeWidth={2} /></span>
               </button>
               <div class="tool-item__detail">
                 <div>
                   <p>{tool.description}</p>
-                  <div class="tool-item__labels">{tool.labels.map((label) => <span>{label}</span>)}</div>
-                  <a href={toolHref(pillar.id)}>
-                    {tool.action}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="13 6 19 12 13 18" /></svg>
+                  <a href={toolHref(pillar.id)} aria-label={`${toolAction(pillar.id)}: ${tool.name}`}>
+                    {toolAction(pillar.id)}
+                    <ToolIcon name="ArrowRight" size={15} strokeWidth={2} />
                   </a>
                 </div>
               </div>
@@ -81,7 +80,7 @@ const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works"
         <div class="tool-stage">
           {pillar.tools.map((tool, index) => (
             <div
-              class="tool-visual"
+              class:list={["tool-visual", { "tool-visual--photo": photoVisuals.has(tool.visual) }]}
               role="tabpanel"
               id={`tool-visual-${tool.id}`}
               aria-labelledby={`tool-tab-${tool.id}`}
@@ -95,20 +94,6 @@ const toolHref = (pillarId: string) => (pillarId === "shopify" ? "#how-it-works"
       </div>
     ))}
 
-    <div class="platform-strip">
-      <p>Built into every tool</p>
-      <ul>
-        {platformFeatures.map((feature) => (
-          <li id={`feature-${feature.id}`}>
-            <span aria-hidden="true"><ToolIcon name={feature.icon} size={20} /></span>
-            <div>
-              <b>{feature.name}</b>
-              <small>{feature.description}</small>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
   </div>
 </section>
 
